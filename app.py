@@ -143,6 +143,7 @@ def bookings():
         return render_template('bookings-dashboard.html', bookings=bookings)
     except Exception as error:
         print(f"Error fetching bookings: {error}")
+        abort(500, description="Internal Server Error")
 
 @app.route('/summaries')
 def summaries():
