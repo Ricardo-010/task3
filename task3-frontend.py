@@ -205,6 +205,6 @@ def booking_confimation_pdfs(booking_id):
 
 if __name__ == "__main__":
     try:
-        app.run(debug=True)
+        app.run(host='0.0.0.0', port=8000)
     except Exception as e:
         print(f"Error in main execution: {e}")
