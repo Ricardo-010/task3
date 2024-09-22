@@ -4,11 +4,11 @@ from flask import Flask, abort, render_template, send_file
 import pyodbc
 from pymongo import MongoClient
 from bson import Binary
-from dotenv import load_dotenv
 
 # Load environment variables
 enviroment = "production"
 if enviroment == 'development':
+    from dotenv import load_dotenv
     load_dotenv()
 
 # Initialize Flask app
