@@ -7,7 +7,9 @@ from bson import Binary
 from dotenv import load_dotenv
 
 # Load environment variables
-load_dotenv()
+enviroment = "production"
+if enviroment == 'development':
+    load_dotenv()
 
 # Initialize Flask app
 app = Flask(__name__)
