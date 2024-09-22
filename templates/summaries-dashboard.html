@@ -1,0 +1,27 @@
+{% extends 'index.html' %} {% block
+content %}
+<h2>Summaries Dahsboard</h2>
+<hr />
+<div id="table"></div>
+<script src="https://unpkg.com/gridjs/dist/gridjs.umd.js"></script>
+<script>
+  new gridjs.Grid({
+    columns: [
+      { id: 'summary_date', name: 'Summary Date' },
+      { id: 'total_bookings', name: 'Total Bookings' },
+      { id: 'total_sales', name: 'Total Sales' },
+    ],
+    data: [
+      {% for summary in summaries %}
+        {
+          summary_date: '{{ summary.summary_date.strftime("%Y-%m-%d") }}',
+          total_bookings: '{{ summary.total_bookings }}',
+          total_sales: '${{ summary.total_sales }}',
+        },
+      {% endfor %}
+    ],
+    sort: true,
+    pagination: true,
+  }).render(document.getElementById('table'));
+</script>
+{% endblock %}

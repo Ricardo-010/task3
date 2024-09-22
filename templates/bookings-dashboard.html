@@ -1,0 +1,40 @@
+{% extends 'index.html' %} {% block
+content %}
+<h2>Bookings Dashboard</h2>
+<hr />
+<div id="table"></div>
+<script src="https://unpkg.com/gridjs/dist/gridjs.umd.js"></script>
+<script>
+  new gridjs.Grid({
+    columns: [
+      { id: 'booking_id', name: 'Booking ID' },
+      { id: 'customer_name', name: 'Customer Name' },
+      { id: 'booking_date', name: 'Booking Date' },
+      { id: 'arrival_date', name: 'Arrival Date' },
+      {
+        id: 'booking_confirmation',
+        name: 'Booking Confirmation',
+        formatter: (cell) => gridjs.html(`<a href="/booking-confirmation/booking-id:${cell}" target="_blank">View PDF</a>`)
+      },
+    ],
+    data: [
+      {% for booking in bookings %}
+        {
+          booking_id: '{{ booking.booking_id }}',
+          customer_name: '{{ booking.customer.first_name }} {{ booking.customer.last_name }}',
+          booking_date: '{{ booking.booking_date }}',
+          arrival_date: '{{ booking.arrival_date }}',
+          booking_confirmation: '{{ booking.booking_id }}'
+        },
+      {% endfor %}
+    ],
+    search: {
+      selector: (cell, rowIndex, cellIndex) => [1].includes(cellIndex) ? cell : null,
+    },
+    sort: true,
+    pagination: true,
+  }).render(document.getElementById('table'));
+
+  document.querySelector('.gridjs-search-input').setAttribute('placeholder', 'Enter customer name');
+</script>
+{% endblock %}
