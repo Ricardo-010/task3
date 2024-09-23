@@ -11,10 +11,14 @@ content %}
       { id: 'customer_name', name: 'Customer Name' },
       { id: 'booking_date', name: 'Booking Date' },
       { id: 'arrival_date', name: 'Arrival Date' },
+      { id: 'booking_status', name: 'Booking Status' },
       {
         id: 'booking_confirmation',
         name: 'Booking Confirmation',
-        formatter: (cell) => gridjs.html(`<a href="/booking-confirmation/booking-id:${cell}" target="_blank">View PDF</a>`)
+        formatter: (_, row) => {  // Use the full row for condition check
+          if (row.cells[4].data === 'Declined') return;
+          return gridjs.html(`<a href="/booking-confirmation/booking-id:${row.cells[0].data}" target="_blank">View PDF</a>`);
+        }
       },
     ],
     data: [
@@ -24,6 +28,7 @@ content %}
           customer_name: '{{ booking.customer.first_name }} {{ booking.customer.last_name }}',
           booking_date: '{{ booking.booking_date }}',
           arrival_date: '{{ booking.arrival_date }}',
+          booking_status: '{{ booking.status }}',
           booking_confirmation: '{{ booking.booking_id }}'
         },
       {% endfor %}

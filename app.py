@@ -9,7 +9,7 @@ from bson import Binary
 app = Flask(__name__)
 
 # Load environment variables only in dev
-enviroment = "prod"
+enviroment = "dev"
 if enviroment == 'dev':
     from dotenv import load_dotenv
     load_dotenv()
@@ -42,12 +42,13 @@ class Booking:
     Represents a booking made by a customer for certain campsites.
     """
 
-    def __init__(self, booking_id, customer, campsites, booking_date, arrival_date, booking_confirmation_pdf=None):
+    def __init__(self, booking_id, customer, campsites, booking_date, arrival_date, booking_status, booking_confirmation_pdf=None):
         self.booking_id = booking_id
         self.customer = customer
         self.campsites = campsites
         self.booking_date = booking_date
         self.arrival_date = arrival_date
+        self.status = booking_status
         self.total_price = self.calculate_total_price()
         self.booking_confirmation_pdf = booking_confirmation_pdf
 
@@ -129,7 +130,9 @@ def bookings():
                 ],
                 booking_date=booking["booking_date"],
                 arrival_date=booking["arrival_date"],
-                booking_confirmation_pdf=Binary(booking["booking_confirmation_pdf"])
+                booking_status=booking["status"],
+                booking_confirmation_pdf=Binary(booking["booking_confirmation_pdf"]) 
+                    if booking["booking_confirmation_pdf"] else None
             )
             for booking in bookings_cursor
         ]
