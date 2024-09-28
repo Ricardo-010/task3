@@ -61,9 +61,9 @@ class Booking:
             total_price += campsite.daily_rate * 7
         return total_price
 
-def head_office_db_connection():
+def campground_db_connection():
     """
-    Establishes a connection to the head office SQL Server database.
+    Establishes a connection to the campgrounds SQL database.
 
     Returns:
         pyodbc.Connection: The database connection object.
@@ -82,7 +82,7 @@ def head_office_db_connection():
         )
         return connection
     except pyodbc.Error as error:
-        print(f"Error connecting to the head office database: {error}")
+        print(f"Error connecting to the campgrounds database: {error}")
 
 
 def campground_mongo_db_connection():
@@ -150,14 +150,13 @@ def summaries():
     Fetches summaries from the SQL database and renders them in a template.
     """
     try:
-        connection = head_office_db_connection()
+        connection = campground_db_connection()
         cursor = connection.cursor()
 
         # Fetch summaries from the database
         cursor.execute("""
-            SELECT campground_id, summary_date, total_sales, total_bookings
-            FROM camping.summary
-            WHERE campground_id = 1167560
+            SELECT summary_date, total_sales, total_confirmed_bookings, total_declined_bookings, total_campsites_booked
+            FROM camping.booking_summary
             ORDER BY summary_date
         """)
         summaries = cursor.fetchall()

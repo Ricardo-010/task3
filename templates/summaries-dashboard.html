@@ -8,14 +8,18 @@ content %}
   new gridjs.Grid({
     columns: [
       { id: 'summary_date', name: 'Summary Date' },
-      { id: 'total_bookings', name: 'Total Bookings' },
+      { id: 'total_confirmed_bookings', name: 'Total Confirmed Bookings' },
+      { id: 'total_declined_bookings', name: 'Total Declined Bookings' },
+      { id: 'total_campsites_booked', name: 'Total Campsites Booked' },
       { id: 'total_sales', name: 'Total Sales' },
     ],
     data: [
       {% for summary in summaries %}
         {
           summary_date: '{{ summary.summary_date.strftime("%Y-%m-%d") }}',
-          total_bookings: '{{ summary.total_bookings }}',
+          total_confirmed_bookings: '{{ summary.total_confirmed_bookings }}',
+          total_declined_bookings: '{{ summary.total_declined_bookings }}',
+          total_campsites_booked: '{{ summary.total_campsites_booked }}',
           total_sales: '${{ summary.total_sales }}',
         },
       {% endfor %}
