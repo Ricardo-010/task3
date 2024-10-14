@@ -9,7 +9,7 @@ from bson import Binary
 app = Flask(__name__)
 
 # Load environment variables only in dev
-enviroment = "dev"
+enviroment = "prod"
 if enviroment == 'dev':
     from dotenv import load_dotenv
     load_dotenv()
